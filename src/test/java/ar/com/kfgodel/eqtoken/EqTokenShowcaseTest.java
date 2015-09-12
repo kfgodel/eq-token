@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
  * Created by tenpines on 11/09/15.
  */
 @RunWith(JavaSpecRunner.class)
-public class EqTokenShowcase extends JavaSpec<EqTokenTestContext>{
+public class EqTokenShowcaseTest extends JavaSpec<EqTokenTestContext>{
     @Override
     public void define() {
         describe("an equality token", ()->{
