@@ -2,6 +2,8 @@ package ar.com.kfgodel.eqtoken.impl;
 
 import ar.com.kfgodel.eqtoken.EqualityToken;
 
+import java.util.Arrays;
+
 /**
  * This type represents a token based on immutable values
  * Created by tenpines on 11/09/15.
@@ -14,7 +16,7 @@ public class ImmutableToken implements EqualityToken {
     public static final int UNCALCULATED_HASHCODE = 0;
 
     private int cachedHashcode;
-    private Object[] discriminators;
+    private Object[] values;
 
     @Override
     public boolean equals(Object obj) {
@@ -25,19 +27,19 @@ public class ImmutableToken implements EqualityToken {
     public int hashCode() {
         if(cachedHashcode == UNCALCULATED_HASHCODE){
             // First and only time we calculate hashcode
-            cachedHashcode = TokenEquality.calculateHashcodeFor(this);
+            cachedHashcode = Arrays.hashCode(values);
         }
         return cachedHashcode;
     }
 
     @Override
-    public Object[] getDiscriminators() {
-        return discriminators;
+    public Object[] getValues() {
+        return values;
     }
 
     public static ImmutableToken create(Object... values){
         ImmutableToken token = new ImmutableToken();
-        token.discriminators = values;
+        token.values = values;
         token.cachedHashcode = UNCALCULATED_HASHCODE;
         return token;
     }

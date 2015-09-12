@@ -26,6 +26,6 @@ public interface EqualityToken {
      *     Array is used for performance reasons
      * @return The array of values to compare to
      */
-    Object[] getDiscriminators();
+    Object[] getValues();
 
 }

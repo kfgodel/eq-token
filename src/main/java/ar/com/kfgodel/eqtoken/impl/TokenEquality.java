@@ -31,15 +31,7 @@ public class TokenEquality {
         }else{
             return false;
         }
-        return Arrays.equals(firstToken.getDiscriminators(), secondToken.getDiscriminators());
+        return Arrays.equals(firstToken.getValues(), secondToken.getValues());
     }
 
-    /**
-     * Calculates the hashcode of a token based on their values
-     * @param token The token
-     * @return The current hashcode for the token
-     */
-    public static int calculateHashcodeFor(EqualityToken token) {
-        return Arrays.hashCode(token.getDiscriminators());
-    }
 }
