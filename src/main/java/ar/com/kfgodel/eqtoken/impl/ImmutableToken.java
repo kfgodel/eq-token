@@ -1,6 +1,7 @@
 package ar.com.kfgodel.eqtoken.impl;
 
 import ar.com.kfgodel.eqtoken.EqualityToken;
+import ar.com.kfgodel.eqtoken.EqualityTokenizable;
 
 import java.util.Objects;
 
@@ -16,7 +17,35 @@ public class ImmutableToken implements EqualityToken {
 
     @Override
     public boolean equals(Object obj) {
-        return TokenEquality.areEquals(this, obj);
+        if(this == obj){
+            return true;
+        }
+        EqualityToken that;
+        if(obj instanceof EqualityTokenizable){
+            EqualityTokenizable tokenizable = (EqualityTokenizable) obj;
+            that = tokenizable.getToken();
+        } else if(obj instanceof EqualityToken){
+            that = (EqualityToken) obj;
+        } else {
+            return false;
+        }
+        if(this.hashCode() != that.hashCode()){
+            return false;
+        }
+        int valueCount = this.values.length;
+        if(valueCount != that.valueCount()){
+            // Different token size
+            return false;
+        }
+        Object[] thatValues = that.getValues();
+        for (int i = 0; i < valueCount; i++) {
+            Object firstValue = this.values[i];
+            Object secondValue = thatValues[i];
+            if (!Objects.equals(firstValue, secondValue)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

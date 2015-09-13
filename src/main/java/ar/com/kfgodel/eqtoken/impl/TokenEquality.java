@@ -3,7 +3,6 @@ package ar.com.kfgodel.eqtoken.impl;
 import ar.com.kfgodel.eqtoken.EqualityToken;
 import ar.com.kfgodel.eqtoken.EqualityTokenizable;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -16,12 +15,12 @@ public class TokenEquality {
         if(first == second){
             return true;
         }
-        if(EqualityToken.class.isInstance(first)){
-            return areEquals(EqualityToken.class.cast(first), second);
-        } else if (EqualityTokenizable.class.isInstance(first)){
-            EqualityTokenizable firstTokenizable = EqualityTokenizable.class.cast(first);
+        if(first instanceof EqualityToken){
+            return areEquals((EqualityToken) first, second);
+        } else if (first instanceof EqualityTokenizable){
+            EqualityTokenizable firstTokenizable = (EqualityTokenizable) first;
             return areEquals(firstTokenizable.getToken(), second);
-        } else if(EqualityToken.class.isInstance(second) || EqualityTokenizable.class.isInstance(second)){
+        } else if(second instanceof EqualityToken || second instanceof EqualityTokenizable){
             return false;
         }
         return Objects.equals(first, second);
@@ -40,11 +39,11 @@ public class TokenEquality {
             return true;
         }
         EqualityToken secondToken;
-        if(EqualityTokenizable.class.isInstance(obj)){
-            EqualityTokenizable tokenizable = EqualityTokenizable.class.cast(obj);
+        if(obj instanceof EqualityTokenizable){
+            EqualityTokenizable tokenizable = (EqualityTokenizable) obj;
             secondToken = tokenizable.getToken();
-        } else if (EqualityToken.class.isInstance(obj)){
-            secondToken = EqualityToken.class.cast(obj);
+        } else if (obj instanceof EqualityToken){
+            secondToken = (EqualityToken) obj;
         }else{
             return false;
         }
