@@ -7,11 +7,11 @@ import java.util.Objects;
 /**
  * Created by tenpines on 12/09/15.
  */
-public class EqualityTraditionalImplementation {
+public class TraditionalComplexObject {
 
     private Integer number;
     private String text;
-    private List<EqualityTraditionalImplementation> children;
+    private List<TraditionalComplexObject> children;
 
     public Integer getNumber() {
         return number;
@@ -21,7 +21,7 @@ public class EqualityTraditionalImplementation {
         return text;
     }
 
-    public List<EqualityTraditionalImplementation> getChildren() {
+    public List<TraditionalComplexObject> getChildren() {
         return children;
     }
 
@@ -29,13 +29,13 @@ public class EqualityTraditionalImplementation {
         this.text = text;
     }
 
-    public static EqualityTraditionalImplementation create(){
-        EqualityTraditionalImplementation root = create(null,0);
+    public static TraditionalComplexObject create(){
+        TraditionalComplexObject root = create(null,0);
         for (int i = 0; i < 10; i++) {
-            EqualityTraditionalImplementation child = create(root, i);
+            TraditionalComplexObject child = create(root, i);
             root.children.add(child);
             for (int j = 0; j < 10; j++) {
-                EqualityTraditionalImplementation subChild = create(child, j);
+                TraditionalComplexObject subChild = create(child, j);
                 child.children.add(subChild);
             }
         }
@@ -43,15 +43,15 @@ public class EqualityTraditionalImplementation {
     }
 
 
-    public static EqualityTraditionalImplementation create(EqualityTraditionalImplementation parent, Integer numero){
-        EqualityTraditionalImplementation object = new EqualityTraditionalImplementation();
+    public static TraditionalComplexObject create(TraditionalComplexObject parent, Integer numero){
+        TraditionalComplexObject object = new TraditionalComplexObject();
         object.number = numero;
         object.text = createTextFromParent(parent, numero);
         object.children = new ArrayList<>();
         return object;
     }
 
-    private static String createTextFromParent(EqualityTraditionalImplementation parent, Integer numero) {
+    private static String createTextFromParent(TraditionalComplexObject parent, Integer numero) {
         if(parent == null){
             return "Root_" + String.valueOf(numero);
         }
@@ -63,10 +63,10 @@ public class EqualityTraditionalImplementation {
         if(this == obj){
             return true;
         }
-        if(!(obj instanceof EqualityTraditionalImplementation)){
+        if(!(obj instanceof TraditionalComplexObject)){
             return false;
         }
-        EqualityTraditionalImplementation that = (EqualityTraditionalImplementation) obj;
+        TraditionalComplexObject that = (TraditionalComplexObject) obj;
         return this.number.equals(that.number) && this.text.equals(that.text) && this.children.equals(that.children);
     }
 

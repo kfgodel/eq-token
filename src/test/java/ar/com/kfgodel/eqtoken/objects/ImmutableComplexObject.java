@@ -10,18 +10,18 @@ import java.util.stream.Collectors;
 /**
  * Created by tenpines on 12/09/15.
  */
-public class ImmutableObjectEqTokenImplementation implements EqualityTokenizable {
+public class ImmutableComplexObject implements EqualityTokenizable {
     private EqualityToken eqToken;
 
-    public static ImmutableObjectEqTokenImplementation create(EqualityTraditionalImplementation traditional){
-        ImmutableObjectEqTokenImplementation object = new ImmutableObjectEqTokenImplementation();
+    public static ImmutableComplexObject create(TraditionalComplexObject traditional){
+        ImmutableComplexObject object = new ImmutableComplexObject();
         object.eqToken = ImmutableToken.create(traditional.getNumber(), traditional.getText(), converted(traditional.getChildren()));
         return object;
     }
 
-    private static List<ImmutableObjectEqTokenImplementation> converted(List<EqualityTraditionalImplementation> children) {
+    private static List<ImmutableComplexObject> converted(List<TraditionalComplexObject> children) {
         return children.stream()
-                .map(ImmutableObjectEqTokenImplementation::create)
+                .map(ImmutableComplexObject::create)
                 .collect(Collectors.toList());
     }
 

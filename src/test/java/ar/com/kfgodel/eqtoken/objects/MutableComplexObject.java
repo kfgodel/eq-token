@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 /**
  * Created by tenpines on 12/09/15.
  */
-public class MutableObjectEqTokenImplementation implements EqualityTokenizable {
+public class MutableComplexObject implements EqualityTokenizable {
     private EqualityToken eqToken;
 
-    public static MutableObjectEqTokenImplementation create(EqualityTraditionalImplementation traditional){
-        MutableObjectEqTokenImplementation object = new MutableObjectEqTokenImplementation();
+    public static MutableComplexObject create(TraditionalComplexObject traditional){
+        MutableComplexObject object = new MutableComplexObject();
         object.eqToken = MutableToken.create(
                 ImmutableDiscriminator.create(traditional.getNumber()),
                 MutableDiscriminator.create(traditional::getText),
@@ -25,9 +25,9 @@ public class MutableObjectEqTokenImplementation implements EqualityTokenizable {
         return object;
     }
 
-    private static List<MutableObjectEqTokenImplementation> converted(List<EqualityTraditionalImplementation> children) {
+    private static List<MutableComplexObject> converted(List<TraditionalComplexObject> children) {
         return children.stream()
-                .map(MutableObjectEqTokenImplementation::create)
+                .map(MutableComplexObject::create)
                 .collect(Collectors.toList());
     }
 

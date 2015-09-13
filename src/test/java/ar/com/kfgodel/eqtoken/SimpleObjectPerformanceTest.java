@@ -2,9 +2,10 @@ package ar.com.kfgodel.eqtoken;
 
 import ar.com.dgarcia.javaspec.api.JavaSpec;
 import ar.com.dgarcia.javaspec.api.JavaSpecRunner;
-import ar.com.kfgodel.eqtoken.objects.ImmutableComplexObject;
+import ar.com.kfgodel.eqtoken.objects.ImmutableSimpleObject;
 import ar.com.kfgodel.eqtoken.objects.MutableComplexObject;
 import ar.com.kfgodel.eqtoken.objects.TraditionalComplexObject;
+import ar.com.kfgodel.eqtoken.objects.TraditionalSimpleObject;
 import org.junit.runner.RunWith;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,18 +14,18 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Created by tenpines on 12/09/15.
  */
 @RunWith(JavaSpecRunner.class)
-public class ComplexObjectPerformanceTest extends JavaSpec<EqTokenTestContext> {
+public class SimpleObjectPerformanceTest extends JavaSpec<EqTokenTestContext> {
 
     public static final int RUN_TIMES = 1_000_000;
 
     @Override
     public void define() {
 
-        describe("an immutable complex object", ()->{
+        describe("an immutable simple object", ()->{
 
             it("should produce same hashcode for eqtoken and traditional approach", () -> {
-                int traditionalHashcode = TraditionalComplexObject.create().hashCode();
-                int eqHashcode = ImmutableComplexObject.create(TraditionalComplexObject.create()).hashCode();
+                int traditionalHashcode = TraditionalSimpleObject.create().hashCode();
+                int eqHashcode = ImmutableSimpleObject.create(TraditionalSimpleObject.create()).hashCode();
 
                 assertThat(traditionalHashcode).isEqualTo(eqHashcode);
             });
@@ -32,39 +33,39 @@ public class ComplexObjectPerformanceTest extends JavaSpec<EqTokenTestContext> {
             it("should produce a faster hashcode with eq-token than traditional approach", () -> {
                 MicroBenchmark bench = MicroBenchmark.create();
 
-                double traditionalTimeMillis = bench.measure("Immutable hashcode Traditional", ComplexObjectPerformanceTest::runTraditionalHashcodeManyTimes);
-                double eqtokenTimeMillis = bench.measure("Immutable hashcode EqToken", ComplexObjectPerformanceTest::runEqTokenHashcodeManyTimes);
+                double traditionalTimeMillis = bench.measure("Immutable hashcode Traditional", SimpleObjectPerformanceTest::runTraditionalHashcodeManyTimes);
+                double eqtokenTimeMillis = bench.measure("Immutable hashcode EqToken", SimpleObjectPerformanceTest::runEqTokenHashcodeManyTimes);
 
                 bench.printResults();
 
-                assertThat(eqtokenTimeMillis).isLessThan(traditionalTimeMillis * 0.01);
+                assertThat(eqtokenTimeMillis).isLessThan(traditionalTimeMillis * 0.1);
             });
 
             it("should run somehow slower equals for equals objects with eq-token implementation", () -> {
                 MicroBenchmark bench = MicroBenchmark.create();
 
-                double traditionalTimeMillis = bench.measure("Immutable equals Traditional (=)", ComplexObjectPerformanceTest::runTraditionalEqualsOnEqualObjectsManyTimes);
-                double eqtokenTimeMillis = bench.measure("Immutable equals EqToken (=)", ComplexObjectPerformanceTest::runEqTokenEqualsOnEqualObjectsManyTimes);
+                double traditionalTimeMillis = bench.measure("Immutable equals Traditional (=)", SimpleObjectPerformanceTest::runTraditionalEqualsOnEqualObjectsManyTimes);
+                double eqtokenTimeMillis = bench.measure("Immutable equals EqToken (=)", SimpleObjectPerformanceTest::runEqTokenEqualsOnEqualObjectsManyTimes);
 
                 bench.printResults();
 
-                assertThat(eqtokenTimeMillis).isLessThan(traditionalTimeMillis * 1.8);
+                assertThat(eqtokenTimeMillis).isLessThan(traditionalTimeMillis * 0.9);
             });
 
             it("should run faster equals for different objects with eq-token implementation", () -> {
                 MicroBenchmark bench = MicroBenchmark.create();
 
-                double traditionalTimeMillis = bench.measure("Immutable equals Traditional (!=)", ComplexObjectPerformanceTest::runTraditionalEqualsOnDifferentObjectsManyTimes);
-                double eqtokenTimeMillis = bench.measure("Immutable equals EqToken (!=)", ComplexObjectPerformanceTest::runEqTokenEqualsOnDifferentObjectsManyTimes);
+                double traditionalTimeMillis = bench.measure("Immutable equals Traditional (!=)", SimpleObjectPerformanceTest::runTraditionalEqualsOnDifferentObjectsManyTimes);
+                double eqtokenTimeMillis = bench.measure("1 Immutable equals EqToken (!=)", SimpleObjectPerformanceTest::runEqTokenEqualsOnDifferentObjectsManyTimes);
 
                 bench.printResults();
 
-                assertThat(eqtokenTimeMillis).isLessThan(traditionalTimeMillis * 0.07);
+                assertThat(eqtokenTimeMillis).isLessThan(traditionalTimeMillis * 0.9);
             });
 
         });
 
-        describe("a mutable complex object", ()->{
+        xdescribe("a mutable complex object", () -> {
             it("should produce same hashcode for eqtoken and traditional approach", () -> {
                 int traditionalHashcode = TraditionalComplexObject.create().hashCode();
                 int eqHashcode = MutableComplexObject.create(TraditionalComplexObject.create()).hashCode();
@@ -75,8 +76,8 @@ public class ComplexObjectPerformanceTest extends JavaSpec<EqTokenTestContext> {
             it("should produce a faster hashcode with eq-token than traditional approach", () -> {
                 MicroBenchmark bench = MicroBenchmark.create();
 
-                double traditionalTimeMillis = bench.measure("Mutable hashcode Traditional", ComplexObjectPerformanceTest::runTraditionalHashcodeManyTimes);
-                double eqtokenTimeMillis = bench.measure("Mutable hashcode EqToken", ComplexObjectPerformanceTest::runMutableEqTokenHashcodeManyTimes);
+                double traditionalTimeMillis = bench.measure("Mutable hashcode Traditional", SimpleObjectPerformanceTest::runTraditionalHashcodeManyTimes);
+                double eqtokenTimeMillis = bench.measure("Mutable hashcode EqToken", SimpleObjectPerformanceTest::runMutableEqTokenHashcodeManyTimes);
 
                 bench.printResults();
 
@@ -86,8 +87,8 @@ public class ComplexObjectPerformanceTest extends JavaSpec<EqTokenTestContext> {
             it("should run slower equals for equals objects with eq-token implementation", () -> {
                 MicroBenchmark bench = MicroBenchmark.create();
 
-                double traditionalTimeMillis = bench.measure("Mutable equals Traditional (=)", ComplexObjectPerformanceTest::runTraditionalEqualsOnEqualObjectsManyTimes);
-                double eqtokenTimeMillis = bench.measure("Mutable equals EqToken (=)", ComplexObjectPerformanceTest::runMutableEqTokenEqualsOnEqualObjectsManyTimes);
+                double traditionalTimeMillis = bench.measure("Mutable equals Traditional (=)", SimpleObjectPerformanceTest::runTraditionalEqualsOnEqualObjectsManyTimes);
+                double eqtokenTimeMillis = bench.measure("Mutable equals EqToken (=)", SimpleObjectPerformanceTest::runMutableEqTokenEqualsOnEqualObjectsManyTimes);
 
                 bench.printResults();
 
@@ -97,8 +98,8 @@ public class ComplexObjectPerformanceTest extends JavaSpec<EqTokenTestContext> {
             it("should run faster equals for different objects with eq-token implementation", () -> {
                 MicroBenchmark bench = MicroBenchmark.create();
 
-                double traditionalTimeMillis = bench.measure("Mutable equals Traditional (!=)", ComplexObjectPerformanceTest::runTraditionalEqualsOnDifferentObjectsManyTimes);
-                double eqtokenTimeMillis = bench.measure("Mutable equals EqToken (!=)", ComplexObjectPerformanceTest::runMutableEqTokenEqualsOnDifferentObjectsManyTimes);
+                double traditionalTimeMillis = bench.measure("Mutable equals Traditional (!=)", SimpleObjectPerformanceTest::runTraditionalEqualsOnDifferentObjectsManyTimes);
+                double eqtokenTimeMillis = bench.measure("Mutable equals EqToken (!=)", SimpleObjectPerformanceTest::runMutableEqTokenEqualsOnDifferentObjectsManyTimes);
 
                 bench.printResults();
 
@@ -109,7 +110,7 @@ public class ComplexObjectPerformanceTest extends JavaSpec<EqTokenTestContext> {
     }
 
     public static void runTraditionalHashcodeManyTimes(){
-        Object object = TraditionalComplexObject.create();
+        Object object = TraditionalSimpleObject.create();
         for (int i = 0; i < RUN_TIMES; i++) {
             object.hashCode();
         }
@@ -117,7 +118,7 @@ public class ComplexObjectPerformanceTest extends JavaSpec<EqTokenTestContext> {
     }
 
     public static void runEqTokenHashcodeManyTimes(){
-        Object object = ImmutableComplexObject.create(TraditionalComplexObject.create());
+        Object object = ImmutableSimpleObject.create(TraditionalSimpleObject.create());
         for (int i = 0; i < RUN_TIMES; i++) {
             object.hashCode();
         }
@@ -131,8 +132,8 @@ public class ComplexObjectPerformanceTest extends JavaSpec<EqTokenTestContext> {
     }
 
     public static void runTraditionalEqualsOnEqualObjectsManyTimes(){
-        Object oneObject = TraditionalComplexObject.create();
-        Object otherObject = TraditionalComplexObject.create();
+        Object oneObject = TraditionalSimpleObject.create();
+        Object otherObject = TraditionalSimpleObject.create();
         for (int i = 0; i < RUN_TIMES; i++) {
             oneObject.equals(otherObject);
         }
@@ -140,8 +141,8 @@ public class ComplexObjectPerformanceTest extends JavaSpec<EqTokenTestContext> {
     }
 
     public static void runEqTokenEqualsOnEqualObjectsManyTimes(){
-        Object oneObject = ImmutableComplexObject.create(TraditionalComplexObject.create());
-        Object otherObject = ImmutableComplexObject.create(TraditionalComplexObject.create());
+        Object oneObject = ImmutableSimpleObject.create(TraditionalSimpleObject.create());
+        Object otherObject = ImmutableSimpleObject.create(TraditionalSimpleObject.create());
         for (int i = 0; i < RUN_TIMES; i++) {
             oneObject.equals(otherObject);
         }
@@ -157,9 +158,9 @@ public class ComplexObjectPerformanceTest extends JavaSpec<EqTokenTestContext> {
 
 
     public static void runTraditionalEqualsOnDifferentObjectsManyTimes(){
-        Object oneObject = TraditionalComplexObject.create();
-        TraditionalComplexObject otherObject = TraditionalComplexObject.create();
-        otherObject.getChildren().get(2).setText("Different");
+        Object oneObject = TraditionalSimpleObject.create();
+        TraditionalSimpleObject otherObject = TraditionalSimpleObject.create();
+        otherObject.setText("Different");
         for (int i = 0; i < RUN_TIMES; i++) {
             oneObject.equals(otherObject);
         }
@@ -167,12 +168,12 @@ public class ComplexObjectPerformanceTest extends JavaSpec<EqTokenTestContext> {
     }
 
     public static void runEqTokenEqualsOnDifferentObjectsManyTimes(){
-        Object oneObject = ImmutableComplexObject.create(TraditionalComplexObject.create());
+        Object oneObject = ImmutableSimpleObject.create(TraditionalSimpleObject.create());
 
-        TraditionalComplexObject different = TraditionalComplexObject.create();
-        different.getChildren().get(0).setText("Different");
+        TraditionalSimpleObject different = TraditionalSimpleObject.create();
+        different.setText("Different");
         // Because it's immutable we need to change the text before creating the instance
-        Object otherObject = ImmutableComplexObject.create(different);
+        Object otherObject = ImmutableSimpleObject.create(different);
 
         for (int i = 0; i < RUN_TIMES; i++) {
             oneObject.equals(otherObject);
