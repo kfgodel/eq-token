@@ -28,4 +28,9 @@ public interface EqualityToken {
      */
     Object[] getValues();
 
+    int valueCount();
+
+    int getHashOfValue(int valueIndex);
+
+    Object getValue(int valueIndex);
 }

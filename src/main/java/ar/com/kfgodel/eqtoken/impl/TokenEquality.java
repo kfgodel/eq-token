@@ -4,6 +4,7 @@ import ar.com.kfgodel.eqtoken.EqualityToken;
 import ar.com.kfgodel.eqtoken.EqualityTokenizable;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * This type captures the equality criteria used on equality tokens
@@ -31,7 +32,34 @@ public class TokenEquality {
         }else{
             return false;
         }
-        return Arrays.equals(firstToken.getValues(), secondToken.getValues());
+        int valueCount = firstToken.valueCount();
+        if(valueCount != secondToken.valueCount()){
+            // Different token size
+            return false;
+        }
+        for (int i = 0; i < valueCount; i++) {
+            int firstHash = firstToken.getHashOfValue(i);
+            int secondHash = secondToken.getHashOfValue(i);
+            if(firstHash != secondHash){
+                return false;
+            }
+        }
+        for (int i = 0; i < valueCount; i++) {
+            Object firstValue = firstToken.getValue(i);
+            Object secondValue = secondToken.getValue(i);
+            if (!Objects.equals(firstValue, secondValue)) {
+                return false;
+            }
+        }
+        return true;
     }
 
+    public static int combineHashcodes(int[] cachedValueHashcodes) {
+        int result = 1;
+
+        for (int valueHashcode : cachedValueHashcodes)
+            result = 31 * result + valueHashcode;
+
+        return result;
+    }
 }

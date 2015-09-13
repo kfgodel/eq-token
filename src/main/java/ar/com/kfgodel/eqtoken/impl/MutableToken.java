@@ -4,6 +4,7 @@ import ar.com.kfgodel.eqtoken.EqualityToken;
 import ar.com.kfgodel.eqtoken.impl.values.Discriminator;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * This type represents an equality token with at least one changing value
@@ -27,6 +28,21 @@ public class MutableToken implements EqualityToken {
             values[i] = discriminator.getValue();
         }
         return values;
+    }
+
+    @Override
+    public int valueCount() {
+        return discriminators.length;
+    }
+
+    @Override
+    public int getHashOfValue(int valueIndex) {
+        return Objects.hashCode(discriminators[valueIndex]);
+    }
+
+    @Override
+    public Object getValue(int valueIndex) {
+        return discriminators[valueIndex].getValue();
     }
 
     @Override

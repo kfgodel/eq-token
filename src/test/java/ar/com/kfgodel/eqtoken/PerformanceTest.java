@@ -40,8 +40,8 @@ public class PerformanceTest extends JavaSpec<EqTokenTestContext> {
             it("should run slightly slower equals for equals objects with eq-token implementation", ()->{
                 MicroBenchmark bench = MicroBenchmark.create();
 
-                double traditionalTimeMillis = bench.measure("Immutable equals Traditional", PerformanceTest::runTraditionalEqualsOnEqualObjectsManyTimes);
-                double eqtokenTimeMillis = bench.measure("Immutable equals EqToken", PerformanceTest::runEqTokenEqualsOnEqualObjectsManyTimes);
+                double traditionalTimeMillis = bench.measure("Immutable equals Traditional (=)", PerformanceTest::runTraditionalEqualsOnEqualObjectsManyTimes);
+                double eqtokenTimeMillis = bench.measure("Immutable equals EqToken (=)", PerformanceTest::runEqTokenEqualsOnEqualObjectsManyTimes);
 
                 bench.printResults();
 
@@ -51,8 +51,8 @@ public class PerformanceTest extends JavaSpec<EqTokenTestContext> {
             it("should run faster equals for different objects with eq-token implementation", ()->{
                 MicroBenchmark bench = MicroBenchmark.create();
 
-                double traditionalTimeMillis = bench.measure("Immutable equals Traditional", PerformanceTest::runTraditionalEqualsOnDifferentObjectsManyTimes);
-                double eqtokenTimeMillis = bench.measure("Immutable equals EqToken", PerformanceTest::runEqTokenEqualsOnDifferentObjectsManyTimes);
+                double traditionalTimeMillis = bench.measure("Immutable equals Traditional (!=)", PerformanceTest::runTraditionalEqualsOnDifferentObjectsManyTimes);
+                double eqtokenTimeMillis = bench.measure("Immutable equals EqToken (!=)", PerformanceTest::runEqTokenEqualsOnDifferentObjectsManyTimes);
 
                 bench.printResults();
 
