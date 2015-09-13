@@ -1,5 +1,6 @@
 package ar.com.kfgodel.eqtoken.impl.values;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 /**
@@ -33,7 +34,7 @@ public class MutableDiscriminator implements Discriminator {
 
     @Override
     public int hashCode() {
-        return DiscriminatorEquality.calculateHashcodeFor(this);
+        return Objects.hashCode(getValue());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ar.com.kfgodel.eqtoken;
+package ar.com.kfgodel.eqtoken.objects;
 
 /**
  * Created by tenpines on 12/09/15.

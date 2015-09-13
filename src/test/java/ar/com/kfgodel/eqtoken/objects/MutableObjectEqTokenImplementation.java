@@ -1,5 +1,7 @@
-package ar.com.kfgodel.eqtoken;
+package ar.com.kfgodel.eqtoken.objects;
 
+import ar.com.kfgodel.eqtoken.EqualityToken;
+import ar.com.kfgodel.eqtoken.EqualityTokenizable;
 import ar.com.kfgodel.eqtoken.impl.MutableToken;
 import ar.com.kfgodel.eqtoken.impl.values.ImmutableDiscriminator;
 import ar.com.kfgodel.eqtoken.impl.values.MutableDiscriminator;

@@ -1,4 +1,4 @@
-package ar.com.kfgodel.eqtoken;
+package ar.com.kfgodel.eqtoken.objects;
 
 import java.util.ArrayList;
 import java.util.List;

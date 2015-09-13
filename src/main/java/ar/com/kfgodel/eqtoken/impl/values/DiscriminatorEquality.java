@@ -7,9 +7,6 @@ import java.util.Objects;
  * Created by tenpines on 12/09/15.
  */
 public class DiscriminatorEquality {
-    public static int calculateHashcodeFor(Discriminator discriminator) {
-        return Objects.hashCode(discriminator.getValue());
-    }
 
     public static boolean areEquals(Discriminator firstDiscriminator, Object obj) {
         if(firstDiscriminator == obj){

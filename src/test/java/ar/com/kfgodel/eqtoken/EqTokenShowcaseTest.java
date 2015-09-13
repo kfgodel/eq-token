@@ -6,13 +6,13 @@ import ar.com.kfgodel.eqtoken.impl.ImmutableToken;
 import ar.com.kfgodel.eqtoken.impl.MutableToken;
 import ar.com.kfgodel.eqtoken.impl.values.ImmutableDiscriminator;
 import ar.com.kfgodel.eqtoken.impl.values.MutableDiscriminator;
+import ar.com.kfgodel.eqtoken.objects.TestObject;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.contentOf;
 import static org.mockito.Mockito.when;
 
 /**

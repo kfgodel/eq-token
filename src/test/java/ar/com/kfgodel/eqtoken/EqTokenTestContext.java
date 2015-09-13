@@ -1,6 +1,7 @@
 package ar.com.kfgodel.eqtoken;
 
 import ar.com.dgarcia.javaspec.api.TestContext;
+import ar.com.kfgodel.eqtoken.objects.TestObject;
 
 import java.util.function.Supplier;
 
