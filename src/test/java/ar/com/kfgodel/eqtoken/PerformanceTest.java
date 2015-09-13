@@ -45,7 +45,7 @@ public class PerformanceTest extends JavaSpec<EqTokenTestContext> {
 
                 bench.printResults();
 
-                assertThat(eqtokenTimeMillis).isLessThan(traditionalTimeMillis * 1.1);
+                assertThat(eqtokenTimeMillis).isLessThan(traditionalTimeMillis * 1.2);
             });
 
             it("should run faster equals for different objects with eq-token implementation", ()->{

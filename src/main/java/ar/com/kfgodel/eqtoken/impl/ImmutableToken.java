@@ -2,7 +2,6 @@ package ar.com.kfgodel.eqtoken.impl;
 
 import ar.com.kfgodel.eqtoken.EqualityToken;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -11,13 +10,8 @@ import java.util.Objects;
  */
 public class ImmutableToken implements EqualityToken {
 
-    /**
-     * Value used initially to avoid calculating the discriminators hashcode eagerly.
-     */
-    public static final int UNCALCULATED_HASHCODE = 0;
-
-    private int cachedHashcode;
     private Object[] values;
+    private int cachedTokenHashcode;
     private int[] cachedValueHashcodes;
 
     @Override
@@ -27,14 +21,19 @@ public class ImmutableToken implements EqualityToken {
 
     @Override
     public int hashCode() {
-        if(cachedHashcode == UNCALCULATED_HASHCODE){
-            // First and only time we calculate hashcode
-            cachedHashcode = calculateHashes();
-        }
-        return cachedHashcode;
+        prepareCachedStateIfNeeded();
+        return cachedTokenHashcode;
     }
 
-    private int calculateHashes() {
+    private void prepareCachedStateIfNeeded() {
+        if(cachedValueHashcodes != null){
+            // Already prepared
+            return;
+        }
+        cachedTokenHashcode = calculateValueHashcodes();
+    }
+
+    private int calculateValueHashcodes() {
         cachedValueHashcodes = new int[values.length];
         for (int i = 0; i < values.length; i++) {
             Object value = values[i];
@@ -56,9 +55,7 @@ public class ImmutableToken implements EqualityToken {
 
     @Override
     public int getHashOfValue(int valueIndex) {
-        if(cachedValueHashcodes == null){
-            hashCode();
-        }
+        prepareCachedStateIfNeeded();
         return cachedValueHashcodes[valueIndex];
     }
 
@@ -70,7 +67,6 @@ public class ImmutableToken implements EqualityToken {
     public static ImmutableToken create(Object... values){
         ImmutableToken token = new ImmutableToken();
         token.values = values;
-        token.cachedHashcode = UNCALCULATED_HASHCODE;
         return token;
     }
 }

@@ -12,6 +12,22 @@ import java.util.Objects;
  */
 public class TokenEquality {
 
+    public static boolean areEquals(Object first, Object second){
+        if(first == second){
+            return true;
+        }
+        if(EqualityToken.class.isInstance(first)){
+            return areEquals(EqualityToken.class.cast(first), second);
+        } else if (EqualityTokenizable.class.isInstance(first)){
+            EqualityTokenizable firstTokenizable = EqualityTokenizable.class.cast(first);
+            return areEquals(firstTokenizable.getToken(), second);
+        } else if(EqualityToken.class.isInstance(second) || EqualityTokenizable.class.isInstance(second)){
+            return false;
+        }
+        return Objects.equals(first, second);
+    }
+
+
     /**
      * Compares a token to another object and determines if they are considered equals.
      * Two token will be equal id they are the same instance or they are defined on equal values
@@ -32,6 +48,16 @@ public class TokenEquality {
         }else{
             return false;
         }
+        return areEquals(firstToken, secondToken);
+    }
+
+    public static boolean areEquals(EqualityToken firstToken, EqualityToken secondToken) {
+        if(firstToken == secondToken){
+            return true;
+        }
+        if(firstToken.hashCode() != secondToken.hashCode()){
+            return false;
+        }
         int valueCount = firstToken.valueCount();
         if(valueCount != secondToken.valueCount()){
             // Different token size
@@ -47,7 +73,7 @@ public class TokenEquality {
         for (int i = 0; i < valueCount; i++) {
             Object firstValue = firstToken.getValue(i);
             Object secondValue = secondToken.getValue(i);
-            if (!Objects.equals(firstValue, secondValue)) {
+            if (!areEquals(firstValue, secondValue)) {
                 return false;
             }
         }
@@ -62,4 +88,7 @@ public class TokenEquality {
 
         return result;
     }
+
+
+
 }
