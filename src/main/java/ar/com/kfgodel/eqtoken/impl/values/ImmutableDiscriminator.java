@@ -1,23 +1,20 @@
 package ar.com.kfgodel.eqtoken.impl.values;
 
+import java.util.Objects;
+
 /**
  * Created by tenpines on 12/09/15.
  */
 public class ImmutableDiscriminator implements Discriminator {
 
-    /**
-     * Value used to lazily calculate first hashcode.
-     * (Collisions with null hashcode so exception is needed)
-     */
-    public static final int UNCALCULATED_HASHCODE = 0;
-
     private Object value;
     private int cachedHashcode;
+    private boolean hashcodeNotCalculated;
 
     public static ImmutableDiscriminator create(Object value){
         ImmutableDiscriminator immutableDiscriminator = new ImmutableDiscriminator();
         immutableDiscriminator.value = value;
-        immutableDiscriminator.cachedHashcode = UNCALCULATED_HASHCODE;
+        immutableDiscriminator.hashcodeNotCalculated = true;
         return immutableDiscriminator;
     }
 
@@ -28,9 +25,10 @@ public class ImmutableDiscriminator implements Discriminator {
 
     @Override
     public int hashCode() {
-        if(value != null && cachedHashcode == UNCALCULATED_HASHCODE){
+        if(hashcodeNotCalculated){
             // First and only time we calculate hashcode
-            cachedHashcode = DiscriminatorEquality.calculateHashcodeFor(this);
+            cachedHashcode = Objects.hashCode(value);
+            hashcodeNotCalculated = false;
         }
         return cachedHashcode;
     }

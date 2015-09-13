@@ -55,21 +55,21 @@ public class ImmutableToken implements EqualityToken {
     }
 
     private void prepareCachedStateIfNeeded() {
-        if(cachedValueHashcodes != null){
-            // Already prepared
-            return;
+        if (cachedValueHashcodes == null) {
+            calculateValueHashcodes();
         }
-        cachedTokenHashcode = calculateValueHashcodes();
+        // Already prepared
     }
 
-    private int calculateValueHashcodes() {
+    private void calculateValueHashcodes() {
         cachedValueHashcodes = new int[values.length];
+        cachedTokenHashcode = 1;
         for (int i = 0; i < values.length; i++) {
             Object value = values[i];
-            cachedValueHashcodes[i] = Objects.hashCode(value);
+            int valueHashcode = Objects.hashCode(value);
+            cachedValueHashcodes[i] = valueHashcode;
+            cachedTokenHashcode = 31 * cachedTokenHashcode + valueHashcode;
         }
-
-        return TokenEquality.combineHashcodes(cachedValueHashcodes);
     }
 
     @Override

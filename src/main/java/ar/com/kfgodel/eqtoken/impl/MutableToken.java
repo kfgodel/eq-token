@@ -1,6 +1,7 @@
 package ar.com.kfgodel.eqtoken.impl;
 
 import ar.com.kfgodel.eqtoken.EqualityToken;
+import ar.com.kfgodel.eqtoken.EqualityTokenizable;
 import ar.com.kfgodel.eqtoken.impl.values.Discriminator;
 
 import java.util.Arrays;
@@ -47,7 +48,33 @@ public class MutableToken implements EqualityToken {
 
     @Override
     public boolean equals(Object obj) {
-        return TokenEquality.areEquals(this, obj);
+        if(this == obj){
+            return true;
+        }
+        EqualityToken that;
+        if(obj instanceof EqualityTokenizable){
+            EqualityTokenizable tokenizable = (EqualityTokenizable) obj;
+            that = tokenizable.getToken();
+        } else if(obj instanceof EqualityToken){
+            that = (EqualityToken) obj;
+        } else {
+            return false;
+        }
+        int valueCount = this.discriminators.length;
+        if(valueCount != that.valueCount()){
+            // Different token size
+            return false;
+        }
+        Object[] thatValues = that.getValues();
+        Object[] thisValues = getValues();
+        for (int i = 0; i < valueCount; i++) {
+            Object firstValue = thisValues[i];
+            Object secondValue = thatValues[i];
+            if (!Objects.equals(firstValue, secondValue)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

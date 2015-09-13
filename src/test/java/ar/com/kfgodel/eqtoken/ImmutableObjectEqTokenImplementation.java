@@ -11,13 +11,13 @@ import java.util.stream.Collectors;
 public class ImmutableObjectEqTokenImplementation implements EqualityTokenizable {
     private EqualityToken eqToken;
 
-    public static ImmutableObjectEqTokenImplementation create(ImmutableObjectTraditionImplementation traditional){
+    public static ImmutableObjectEqTokenImplementation create(EqualityTraditionalImplementation traditional){
         ImmutableObjectEqTokenImplementation object = new ImmutableObjectEqTokenImplementation();
         object.eqToken = ImmutableToken.create(traditional.getNumber(), traditional.getText(), converted(traditional.getChildren()));
         return object;
     }
 
-    private static List<ImmutableObjectEqTokenImplementation> converted(List<ImmutableObjectTraditionImplementation> children) {
+    private static List<ImmutableObjectEqTokenImplementation> converted(List<EqualityTraditionalImplementation> children) {
         return children.stream()
                 .map(ImmutableObjectEqTokenImplementation::create)
                 .collect(Collectors.toList());

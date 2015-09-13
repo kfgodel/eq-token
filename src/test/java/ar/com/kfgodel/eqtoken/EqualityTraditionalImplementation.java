@@ -1,18 +1,17 @@
 package ar.com.kfgodel.eqtoken;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * Created by tenpines on 12/09/15.
  */
-public class ImmutableObjectTraditionImplementation {
+public class EqualityTraditionalImplementation {
 
     private Integer number;
     private String text;
-    private List<ImmutableObjectTraditionImplementation> children;
+    private List<EqualityTraditionalImplementation> children;
 
     public Integer getNumber() {
         return number;
@@ -22,7 +21,7 @@ public class ImmutableObjectTraditionImplementation {
         return text;
     }
 
-    public List<ImmutableObjectTraditionImplementation> getChildren() {
+    public List<EqualityTraditionalImplementation> getChildren() {
         return children;
     }
 
@@ -30,13 +29,13 @@ public class ImmutableObjectTraditionImplementation {
         this.text = text;
     }
 
-    public static ImmutableObjectTraditionImplementation create(){
-        ImmutableObjectTraditionImplementation root = create(null,0);
+    public static EqualityTraditionalImplementation create(){
+        EqualityTraditionalImplementation root = create(null,0);
         for (int i = 0; i < 10; i++) {
-            ImmutableObjectTraditionImplementation child = create(root, i);
+            EqualityTraditionalImplementation child = create(root, i);
             root.children.add(child);
             for (int j = 0; j < 10; j++) {
-                ImmutableObjectTraditionImplementation subChild = create(child, j);
+                EqualityTraditionalImplementation subChild = create(child, j);
                 child.children.add(subChild);
             }
         }
@@ -44,15 +43,15 @@ public class ImmutableObjectTraditionImplementation {
     }
 
 
-    public static ImmutableObjectTraditionImplementation create(ImmutableObjectTraditionImplementation parent, Integer numero){
-        ImmutableObjectTraditionImplementation object = new ImmutableObjectTraditionImplementation();
+    public static EqualityTraditionalImplementation create(EqualityTraditionalImplementation parent, Integer numero){
+        EqualityTraditionalImplementation object = new EqualityTraditionalImplementation();
         object.number = numero;
         object.text = createTextFromParent(parent, numero);
         object.children = new ArrayList<>();
         return object;
     }
 
-    private static String createTextFromParent(ImmutableObjectTraditionImplementation parent, Integer numero) {
+    private static String createTextFromParent(EqualityTraditionalImplementation parent, Integer numero) {
         if(parent == null){
             return "Root_" + String.valueOf(numero);
         }
@@ -64,10 +63,10 @@ public class ImmutableObjectTraditionImplementation {
         if(this == obj){
             return true;
         }
-        if(!(obj instanceof ImmutableObjectTraditionImplementation)){
+        if(!(obj instanceof EqualityTraditionalImplementation)){
             return false;
         }
-        ImmutableObjectTraditionImplementation that = (ImmutableObjectTraditionImplementation) obj;
+        EqualityTraditionalImplementation that = (EqualityTraditionalImplementation) obj;
         return this.number.equals(that.number) && this.text.equals(that.text) && this.children.equals(that.children);
     }
 
